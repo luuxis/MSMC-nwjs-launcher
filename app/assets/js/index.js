@@ -1,31 +1,37 @@
-const {Client} = require('minecraft-launcher-core');
+const { Client } = require('minecraft-launcher-core');
 const launcher = new Client();
+
+const dataDirectory = process.env.APPDATA || (process.platform == 'darwin' ? process.env.HOME + '/Library/Application Support' : process.env.HOME)
+
 const msmc = require("msmc"); 
 
-//Just using NWjs for this example, any function that gives the callback parameter type will work 
-msmc.getNWjs().FastLaunch((callback)=>{
-    let opts = {
-        clientPackage: null,
-        // Pulled from the Minecraft Launcher core docs , this function is the star of the show
-        authorization: msmc.getMCLC().getAuth(callback),
-        root: "./minecraft",
-        version: {
-            number: "1.14.4",
-            type: "release"
-        },
-        memory: {
-            max: "6G",
-            min: "4G"
-        }
-    }
-    console.log("Starting")
-    launcher.launch(opts);
-    
-    launcher.on('debug', (e) => console.log(e));
-    launcher.on('data', (e) => console.log(e));
 
-}, (update) => {
-    //A hook for catching loading bar events and errors, standard with MSMC 
-    console.log("CallBack!!!!!")
-    console.log(update)
-})
+function play(){
+    msmc.getNWjs().FastLaunch((callback)=> {
+        const max_ram = document.getElementById("ram").value
+        const version_minecraft = document.querySelector(".minecraft_version").value
+
+        let opts = {
+            clientPackage: null,
+            authorization: msmc.getMCLC().getAuth(callback),
+            root: dataDirectory + "./.minecraft",
+            version: {
+                number: version_minecraft,
+                type: "release"
+            },
+            memory: {
+                max: max_ram + "G",
+                min: "1G"
+            }
+        }
+        console.log("Starting")
+        launcher.launch(opts);
+        
+        launcher.on('debug', (e) => console.log(e));
+        launcher.on('data', (e) => console.log(e));
+    
+    }, (update) => {
+        console.log("CallBack!!!!!")
+        console.log(update)
+    })
+}

@@ -8,7 +8,6 @@ const msmc = require("msmc");
 
 function play(){
     msmc.getNWjs().FastLaunch((callback)=> {
-        const max_ram = document.getElementById("ram").value
         const version_minecraft = document.querySelector(".minecraft_version").value
 
         let opts = {
@@ -20,7 +19,7 @@ function play(){
                 type: "release"
             },
             memory: {
-                max: max_ram + "G",
+                max: "1G",
                 min: "1G"
             }
         }

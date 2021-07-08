@@ -13,7 +13,7 @@ function play(){
         let opts = {
             clientPackage: null,
             authorization: msmc.getMCLC().getAuth(callback),
-            root: dataDirectory + "./.minecraft",
+            root: dataDirectory + "/.minecraft",
             version: {
                 number: version_minecraft,
                 type: "release"
